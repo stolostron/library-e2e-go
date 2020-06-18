@@ -21,4 +21,3 @@ jobs:
       name: "Run unit tests"
       script:
         - make test
-        - make sonar/go
