@@ -1,0 +1,23 @@
+language: go
+
+go:
+  - "1.13.x"
+
+branches:
+  only:
+    - master
+    - /^release-[0-9]+\..*$/
+
+
+stages:
+  - unit-test
+
+before_script:
+  - git config --global url.git@github.com:open-cluster-management/.insteadOf https://github.com/open-cluster-management/
+
+jobs:
+  include:
+    - stage: unit-test
+      name: "Run unit tests"
+      script:
+        - make test
