@@ -1,4 +1,4 @@
-package options
+package apis
 
 // ClusterDeploy defines the data passed to Hive
 type ClusterDeploy struct {
