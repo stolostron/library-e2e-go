@@ -1,4 +1,4 @@
-package options
+package apis
 
 // InstallConfig definition for install config structure from install-config.yaml
 type InstallConfig struct {

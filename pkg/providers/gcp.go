@@ -14,7 +14,7 @@ type InstallerConfigGCP struct {
 }
 
 // function for filling out installconfig template, takes installConfig struct and returns string for secret creation
-func GetInstallConfigGCP(instConfig InstallerConfigGCP) string {
+func GetInstallConfigGCP(instConfig InstallerConfigGCP) (string, error) {
 	const configTemplate = `
 apiVersion: v1
 metadata:
@@ -53,7 +53,7 @@ sshKey: {{.SSHKey}}
 	t := template.Must(template.New("configTemplate").Parse(configTemplate))
 	err := t.Execute(stdoutBuffer, instConfig)
 	if err != nil {
-		return err.Error()
+		return "", err
 	}
-	return stdoutBuffer.String()
+	return stdoutBuffer.String(), nil
 }
