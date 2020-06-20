@@ -14,6 +14,9 @@
 # Dependency directories (remove the comment below to include it)
 vendor/
 
+# Directory
+test/unit/coverage
+
 # Files
 .DS_Store
 coverage.out

@@ -6,21 +6,25 @@ type TestOptionsContainer struct {
 
 // Define options available for Tests to consume
 type TestOptions struct {
-	HubConfigDir             string          `yaml:"hubConfigDir"`
-	ManagedClustersConfigDir string          `yaml:"managedClustersConfigDir"`
-	ImageRegistry            Registry        `yaml:"imageRegistry,omitempty"`
-	IdentityProvider         int             `yaml:"identityProvider,omitempty"`
-	Connection               CloudConnection `yaml:"cloudConnection,omitempty"`
-	Headless                 string          `yaml:"headless,omitempty"`
-	OwnerPrefix              string          `yaml:"ownerPrefix,omitempty"`
+	Hub              Hub             `yaml:"hub,omitempty"`
+	ManagedClusters  ManagedClusters `yaml:"managedClusters,omitempty"`
+	IdentityProvider int             `yaml:"identityProvider,omitempty"`
+	Connection       CloudConnection `yaml:"cloudConnection,omitempty"`
+	Headless         string          `yaml:"headless,omitempty"`
+	OwnerPrefix      string          `yaml:"ownerPrefix,omitempty"`
 }
 
-// Define the image registry
-type Registry struct {
-	// example: quay.io/open-cluster-management
-	Server   string `yaml:"server"`
-	User     string `yaml:"user"`
-	Password string `yaml:"password"`
+// Define the shape of clusters that may be added under management
+type Hub struct {
+	ConfigDir  string `yaml:"configDir,omitempty"`
+	BaseDomain string `yaml:"baseDomain"`
+	User       string `yaml:"user,omitempty"`
+	Password   string `yaml:"password,omitempty"`
+}
+
+// Define the shape of clusters that may be added under management
+type ManagedClusters struct {
+	ConfigDir string `yaml:"configDir,omitempty"`
 }
 
 // CloudConnection struct for bits having to do with Connections
