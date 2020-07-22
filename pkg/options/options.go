@@ -11,7 +11,6 @@ type TestOptions struct {
 	IdentityProvider int             `yaml:"identityProvider,omitempty"`
 	Connection       CloudConnection `yaml:"cloudConnection,omitempty"`
 	Headless         string          `yaml:"headless,omitempty"`
-	OwnerPrefix      string          `yaml:"ownerPrefix,omitempty"`
 }
 
 // Define the shape of clusters that may be added under management
@@ -24,12 +23,15 @@ type Hub struct {
 
 // Define the shape of clusters that may be added under management
 type ManagedClusters struct {
-	ConfigDir string `yaml:"configDir,omitempty"`
+	ConfigDir   string `yaml:"configDir,omitempty"`
+	OwnerPrefix string `yaml:"ownerPrefix,omitempty"`
+	//TODO: add OCP image, as an array in order to test sequentially
+	//or a single value and launch concurrently multiple tests with different options
+	ImageSetRefName string `yaml:"imageSetRefName,omitempty"`
 }
 
 // CloudConnection struct for bits having to do with Connections
 type CloudConnection struct {
-	PullSecret    string  `yaml:"pullSecret"`
 	SSHPrivateKey string  `yaml:"sshPrivatekey"`
 	SSHPublicKey  string  `yaml:"sshPublickey"`
 	Keys          APIKeys `yaml:"apiKeys,omitempty"`
@@ -43,8 +45,8 @@ type APIKeys struct {
 }
 
 type AWSAPIKey struct {
-	AWSAccessID     string `yaml:"awsAccessKeyID"`
-	AWSAccessSecret string `yaml:"awsSecretAccessKeyID"`
+	AWSAccessKeyID  string `yaml:"aws_access_key_id"`
+	AWSAccessSecret string `yaml:"aws_secret_access_key"`
 	BaseDnsDomain   string `yaml:"baseDnsDomain"`
 	Region          string `yaml:"region"`
 }
@@ -53,7 +55,6 @@ type GCPAPIKey struct {
 	ProjectID             string `yaml:"gcpProjectID"`
 	ServiceAccountJsonKey string `yaml:"gcpServiceAccountJsonKey"`
 	BaseDnsDomain         string `yaml:"baseDnsDomain"`
-	Region                string `yaml:"region"`
 }
 
 type AzureAPIKey struct {
