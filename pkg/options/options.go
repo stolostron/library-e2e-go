@@ -82,7 +82,7 @@ var seededRand *rand.Rand = rand.New(
 
 var TestOptions TestOptionsT
 
-func InitOptions(optionsFile string) error {
+func LoadOptions(optionsFile string) error {
 	err := unmarshal(optionsFile)
 	if err != nil {
 		klog.Errorf("--options error: %v", err)
