@@ -1,0 +1,33 @@
+hub:
+  configDir: "resources/hub"
+  baseDomain: mybaseDomain
+managedClusters:
+  configDir:  "resources/clusters"
+  owner: my
+cloudConnection:
+  sshPublickey: |-
+    fake
+  sshPrivatekey: |-
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    fake
+    -----END OPENSSH PRIVATE KEY-----        
+  apiKeys:
+    aws:
+      aws_access_key_id: my_aws_access_key_id
+      aws_secret_access_key: my_aws_secret_access_key
+      baseDnsDomain: my_aws_baseDnsDomain
+      region: my_aws_region
+    azure:
+      baseDnsDomain: my_azure_baseDnsDomain
+      azureBaseDomainRGN: my_azureBaseDomainRGN
+      azureServicePrincipalJson: |-
+        {"azureServicePrincipalJson":"my_azureServicePrincipalJson"}
+      region: my_azure_region
+    gcp:
+      gcpServiceAccountJsonKey: |-
+        {
+          "gcpServiceAccountJsonKey": "my_gcpServiceAccountJsonKey",
+        }    
+      gcpProjectID: my_gcpProjectID
+      baseDnsDomain: my_gcp_baseDnsDomain
+      region: my_gcp_region

@@ -1,11 +1,12 @@
 package options
 
 import (
+	"crypto/rand"
 	"fmt"
 	"io/ioutil"
-	"math/rand"
+	"math/big"
 	"os"
-	"time"
+	"path/filepath"
 
 	libgocmd "github.com/open-cluster-management/library-e2e-go/pkg/cmd"
 
@@ -77,9 +78,6 @@ type AzureAPIKey struct {
 const charset = "abcdefghijklmnopqrstuvwxyz" +
 	"0123456789"
 
-var seededRand *rand.Rand = rand.New(
-	rand.NewSource(time.Now().UnixNano()))
-
 var TestOptions TestOptionsT
 
 func LoadOptions(optionsFile string) error {
@@ -102,7 +100,7 @@ func unmarshal(optionsFile string) error {
 
 	klog.V(1).Infof("options filename=%s", optionsFile)
 
-	data, err := ioutil.ReadFile(optionsFile)
+	data, err := ioutil.ReadFile(filepath.Clean(optionsFile))
 	if err != nil {
 		return err
 	}
@@ -118,7 +116,6 @@ func unmarshal(optionsFile string) error {
 
 func GetClusterName(cloud string) (string, error) {
 	var ownerPrefix string
-	var uidPostfix string
 	// OwnerPrefix is used to help identify who owns deployed resources
 	//    If a value is not supplied, the default is OS environment variable $USER
 	if libgocmd.End2End.Owner != "" {
@@ -134,7 +131,10 @@ func GetClusterName(cloud string) (string, error) {
 		}
 	}
 	klog.V(1).Infof("ownerPrefix=%s", ownerPrefix)
-	uidPostfix = randString(4)
+	uidPostfix, err := randString(4)
+	if err != nil {
+		return "", err
+	}
 	if libgocmd.End2End.UID != "" {
 		uidPostfix = libgocmd.End2End.UID
 	}
@@ -174,14 +174,18 @@ func GetBaseDomain(cloud string) (string, error) {
 	}
 }
 
-func StringWithCharset(length int, charset string) string {
+func StringWithCharset(length int, charset string) (string, error) {
 	b := make([]byte, length)
 	for i := range b {
-		b[i] = charset[seededRand.Intn(len(charset))]
+		r, err := rand.Int(rand.Reader, big.NewInt(int64(len(charset))))
+		if err != nil {
+			return "", err
+		}
+		b[i] = charset[r.Int64()]
 	}
-	return string(b)
+	return string(b), nil
 }
 
-func randString(length int) string {
+func randString(length int) (string, error) {
 	return StringWithCharset(length, charset)
 }
