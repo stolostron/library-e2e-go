@@ -33,10 +33,8 @@ type Hub struct {
 
 // Define the shape of clusters that may be added under management
 type ManagedClusters struct {
-	ConfigDir string `yaml:"configDir,omitempty"`
-	Owner     string `yaml:"owner,omitempty"`
-	//TODO: add OCP image, as an array in order to test sequentially
-	//or a single value and launch concurrently multiple tests with different options
+	ConfigDir       string `yaml:"configDir,omitempty"`
+	Owner           string `yaml:"owner,omitempty"`
 	ImageSetRefName string `yaml:"imageSetRefName,omitempty"`
 }
 

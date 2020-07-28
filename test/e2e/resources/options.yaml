@@ -4,6 +4,7 @@ hub:
 managedClusters:
   configDir:  "resources/clusters"
   owner: my
+  imageSetRefName: my_image_ref
 cloudConnection:
   sshPublickey: |-
     fake
