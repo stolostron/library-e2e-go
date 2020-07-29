@@ -140,7 +140,7 @@ func GetClusterName(cloud string) (string, error) {
 	case "aws", "gcp", "azure":
 		return ownerPrefix + "-" + cloud + "-" + uidPostfix, nil
 	default:
-		return "", fmt.Errorf("Unsupporter cloud %s", cloud)
+		return "", fmt.Errorf("Can not generate cluster name as the cloud %s is unsupported", cloud)
 	}
 }
 
@@ -153,7 +153,7 @@ func GetRegion(cloud string) (string, error) {
 	case "gcp":
 		return TestOptions.Connection.Keys.GCP.Region, nil
 	default:
-		return "", fmt.Errorf("Unsupporter cloud %s", cloud)
+		return "", fmt.Errorf("Can not find region as the cloud %s is unsuported", cloud)
 
 	}
 }
@@ -167,7 +167,7 @@ func GetBaseDomain(cloud string) (string, error) {
 	case "gcp":
 		return TestOptions.Connection.Keys.GCP.BaseDnsDomain, nil
 	default:
-		return "", fmt.Errorf("Unsupporter cloud %s", cloud)
+		return "", fmt.Errorf("Can not find the baseDomain as the cloud %s is unsupported", cloud)
 
 	}
 }
