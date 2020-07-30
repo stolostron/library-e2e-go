@@ -17,7 +17,7 @@ func TestLoadOptions(t *testing.T) {
 		{
 			name: "success",
 			args: args{
-				optionsFile: "../../test/e2e/resources/options.yaml",
+				optionsFile: "../../test/unit/resources/options.yaml",
 			},
 			wantErr: false,
 		},
@@ -31,7 +31,7 @@ func TestLoadOptions(t *testing.T) {
 		{
 			name: "failed malformed",
 			args: args{
-				optionsFile: "../../test/e2e/resources/options-malformed.yaml",
+				optionsFile: "../../test/unit/resources/options-malformed.yaml",
 			},
 			wantErr: true,
 		},
@@ -46,7 +46,7 @@ func TestLoadOptions(t *testing.T) {
 }
 
 func TestGetClusterName(t *testing.T) {
-	err := LoadOptions("../../test/e2e/resources/options.yaml")
+	err := LoadOptions("../../test/unit/resources/options.yaml")
 	if err != nil {
 		t.Error(err)
 	}
@@ -90,7 +90,7 @@ func TestGetClusterName(t *testing.T) {
 }
 
 func TestGetRegion(t *testing.T) {
-	err := LoadOptions("../../test/e2e/resources/options.yaml")
+	err := LoadOptions("../../test/unit/resources/options.yaml")
 	if err != nil {
 		t.Error(err)
 	}
@@ -150,7 +150,7 @@ func TestGetRegion(t *testing.T) {
 }
 
 func TestGetBaseDomain(t *testing.T) {
-	err := LoadOptions("../../test/e2e/resources/options.yaml")
+	err := LoadOptions("../../test/unit/resources/options.yaml")
 	if err != nil {
 		t.Error(err)
 	}
