@@ -20,9 +20,10 @@ cloudConnection:
       region: my_aws_region
     azure:
       baseDnsDomain: my_azure_baseDnsDomain
-      azureBaseDomainRGN: my_azureBaseDomainRGN
-      azureServicePrincipalJson: |-
-        {"azureServicePrincipalJson":"my_azureServicePrincipalJson"}
+      clientId: my_clientId
+      clientSecret: my_clientSecret
+      tenantId: mu_tenantId
+      subscriptionId: my_subscriptionId
       region: my_azure_region
     gcp:
       gcpServiceAccountJsonKey: |-
