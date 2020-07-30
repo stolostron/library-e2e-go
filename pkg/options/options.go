@@ -67,10 +67,13 @@ type GCPAPIKey struct {
 }
 
 type AzureAPIKey struct {
-	BaseDnsDomain        string `yaml:"baseDnsDomain"`
-	BaseDomainRGN        string `yaml:"azureBaseDomainRGN"`
-	ServicePrincipalJson string `yaml:"azureServicePrincipalJson"`
-	Region               string `yaml:"region"`
+	BaseDnsDomain  string `yaml:"baseDnsDomain"`
+	BaseDomainRGN  string `yaml:"azureBaseDomainRGN"`
+	ClientId       string `yaml:"clientId"`
+	ClientSecret   string `yaml:"clientSecret"`
+	TenantId       string `yaml:"tenantId"`
+	SubscriptionId string `yaml:"subscriptionId"`
+	Region         string `yaml:"region"`
 }
 
 const charset = "abcdefghijklmnopqrstuvwxyz" +
@@ -96,7 +99,7 @@ func unmarshal(optionsFile string) error {
 		}
 	}
 
-	klog.V(1).Infof("options filename=%s", optionsFile)
+	klog.V(2).Infof("options filename=%s", optionsFile)
 
 	data, err := ioutil.ReadFile(filepath.Clean(optionsFile))
 	if err != nil {
