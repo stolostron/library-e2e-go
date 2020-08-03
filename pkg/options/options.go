@@ -53,8 +53,8 @@ type APIKeys struct {
 }
 
 type AWSAPIKey struct {
-	AWSAccessKeyID  string `yaml:"aws_access_key_id"`
-	AWSAccessSecret string `yaml:"aws_secret_access_key"`
+	AWSAccessKeyID  string `yaml:"awsAccessKeyID"`
+	AWSAccessSecret string `yaml:"awsSecretAccessKeyID"`
 	BaseDnsDomain   string `yaml:"baseDnsDomain"`
 	Region          string `yaml:"region"`
 }
