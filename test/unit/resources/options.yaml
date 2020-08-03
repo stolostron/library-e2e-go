@@ -14,8 +14,8 @@ cloudConnection:
     -----END OPENSSH PRIVATE KEY-----        
   apiKeys:
     aws:
-      aws_access_key_id: my_aws_access_key_id
-      aws_secret_access_key: my_aws_secret_access_key
+      awsAccessKeyID: awsAccessKeyID
+      awsSecretAccessKeyID: awsSecretAccessKeyID
       baseDnsDomain: my_aws_baseDnsDomain
       region: my_aws_region
     azure:
