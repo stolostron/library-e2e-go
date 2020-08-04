@@ -38,7 +38,6 @@ type ManagedClusters struct {
 	ConfigDir string `yaml:"configDir,omitempty"`
 	//The ocp imageset name to use while deploying the cluster
 	ImageSetRefName string `yaml:"imageSetRefName,omitempty"`
-	//TODO: Create image set named <owner>-<tag-of-image>-<uid>
 	//OCPImageRelease will use it to create an imageSet named <owner>-<tag-of-image>-<uid>
 	//if the ImageSetRefName is empty
 	//example quay.io/openshift-release-dev/ocp-release:4.3.28-x86_64
