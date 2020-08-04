@@ -4,7 +4,8 @@ import "testing"
 
 func TestGetHubKubeConfig(t *testing.T) {
 	type args struct {
-		configDir string
+		configDir      string
+		kubeConfigPath string
 	}
 	tests := []struct {
 		name string
@@ -35,7 +36,7 @@ func TestGetHubKubeConfig(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := GetHubKubeConfig(tt.args.configDir); got != tt.want {
+			if got := GetHubKubeConfig(tt.args.configDir, tt.args.kubeConfigPath); got != tt.want {
 				t.Errorf("GetHubKubeConfig() = %v, want %v", got, tt.want)
 			}
 		})
