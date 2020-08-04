@@ -1,7 +1,6 @@
 package options
 
 import (
-	"strings"
 	"testing"
 )
 
@@ -40,50 +39,6 @@ func TestLoadOptions(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if err := LoadOptions(tt.args.optionsFile); (err != nil) != tt.wantErr {
 				t.Errorf("LoadOptions() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
-func TestGetClusterName(t *testing.T) {
-	err := LoadOptions("../../test/unit/resources/options.yaml")
-	if err != nil {
-		t.Error(err)
-	}
-	type args struct {
-		cloud string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    string
-		wantErr bool
-	}{
-		{
-			name: "succeed",
-			args: args{
-				cloud: "azure",
-			},
-			want:    "my-azure-",
-			wantErr: false,
-		},
-		{
-			name: "failed unsupported",
-			args: args{
-				cloud: "mycloud",
-			},
-			wantErr: true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := GetClusterName(tt.args.cloud)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("GetClusterName() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !strings.HasPrefix(got, tt.want) {
-				t.Errorf("GetClusterName() = %v, want %v", got, tt.want)
 			}
 		})
 	}
