@@ -4,14 +4,15 @@ import (
 	"fmt"
 )
 
+// ClusterName ...
 type ClusterName struct {
-	Owner string
+	//Owner string
 	Cloud string
 	uid   string
 }
 
 //NewClusterName returns a new ClusterName with a uid.
-func NewClusterName(owner, cloud string) (*ClusterName, error) {
+func NewClusterName(cloud string) (*ClusterName, error) {
 	switch cloud {
 	case "aws", "gcp", "azure":
 		uid, err := GetUID()
@@ -19,7 +20,7 @@ func NewClusterName(owner, cloud string) (*ClusterName, error) {
 			return nil, err
 		}
 		return &ClusterName{
-			Owner: GetOwner(),
+			//Owner: GetOwner(),
 			Cloud: cloud,
 			uid:   uid,
 		}, nil
@@ -30,7 +31,7 @@ func NewClusterName(owner, cloud string) (*ClusterName, error) {
 
 //String format the clusterName as string
 func (c *ClusterName) String() string {
-	return fmt.Sprintf("%s-%s-%s", c.Owner, c.Cloud, c.uid)
+	return fmt.Sprintf("%s-%s", c.Cloud, c.uid)
 }
 
 //GetUID return the uid for that ClusterName

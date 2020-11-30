@@ -11,7 +11,6 @@ func TestNewClusterName(t *testing.T) {
 		t.Error(err)
 	}
 	type args struct {
-		owner string
 		cloud string
 	}
 	tests := []struct {
@@ -23,11 +22,9 @@ func TestNewClusterName(t *testing.T) {
 		{
 			name: "succeed",
 			args: args{
-				owner: "owner",
 				cloud: "azure",
 			},
 			want: &ClusterName{
-				Owner: "owner",
 				Cloud: "azure",
 			},
 			wantErr: false,
@@ -35,7 +32,6 @@ func TestNewClusterName(t *testing.T) {
 		{
 			name: "failed unsupported",
 			args: args{
-				owner: "owner",
 				cloud: "mycloud",
 			},
 			wantErr: true,
@@ -43,7 +39,7 @@ func TestNewClusterName(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := NewClusterName(tt.args.owner, tt.args.cloud)
+			got, err := NewClusterName(tt.args.cloud)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("NewClusterName() error = %v, wantErr %v", err, tt.wantErr)
 				return

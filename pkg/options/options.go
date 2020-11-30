@@ -14,71 +14,83 @@ import (
 	"k8s.io/klog"
 )
 
+// TestOptionsT ...
 // Define options available for Tests to consume
 type TestOptionsT struct {
 	Hub              Hub             `yaml:"hub,omitempty"`
-	ManagedClusters  ManagedClusters `yaml:"managedClusters,omitempty"`
-	IdentityProvider int             `yaml:"identityProvider,omitempty"`
-	Connection       CloudConnection `yaml:"cloudConnection,omitempty"`
-	Headless         string          `yaml:"headless,omitempty"`
-	Owner            string          `yaml:"owner,omitempty"`
-	UID              string          `yaml:"uid,omitempty"`
+	Clusters         []Clusters      `yaml:"clusters,omitempty"`
+	ImageRegistry    ImageRegistry   `yaml:"imageRegistry,omitempty"`
+	IdentityProvider string          `yaml:"identityProvider,omitempty"`
+	CloudConnection  CloudConnection `yaml:"cloudConnection,omitempty"`
 }
 
+// Hub ...
 // Define the shape of clusters that may be added under management
 type Hub struct {
-	ConfigDir  string `yaml:"configDir,omitempty"`
+	Name       string `yaml:"name,omitempty"`
 	BaseDomain string `yaml:"baseDomain"`
+	User       string `yaml:"user,omitempty"`
+	Password   string `yaml:"password,omitempty"`
 	//The hub kubeconfig path
-	KubeConfigPath string `yaml:"kubeconfig,omitempty"`
+	KubeContext string `yaml:"kubecontext,omitempty"`
 }
 
+// Clusters ...
 // Define the shape of clusters that may be added under management
-type ManagedClusters struct {
-	ConfigDir string `yaml:"configDir,omitempty"`
-	//The ocp imageset name to use while deploying the cluster
-	ImageSetRefName string `yaml:"imageSetRefName,omitempty"`
-	//OCPImageRelease will use it to create an imageSet named <owner>-<tag-of-image>-<uid>
-	//if the ImageSetRefName is empty
-	//example quay.io/openshift-release-dev/ocp-release:4.3.28-x86_64
-	OCPImageRelease string `yaml:"OCPImageRelease,omitempty"`
+type Clusters struct {
+	Name        string          `yaml:"name,omitempty"`
+	Tags        map[string]bool `yaml:"tags,omitempty"`
+	BaseDomain  string          `yaml:"baseDomain"`
+	KubeContext string          `yaml:"kubecontext,omitempty"`
+}
+
+// ImageRegistry - define the image repo information
+type ImageRegistry struct {
+	Server   string `yaml:"server,omitemty"`
+	User     string `yaml:"user,omitempty"`
+	Password string `yaml:"password,omitemty"`
 }
 
 // CloudConnection struct for bits having to do with Connections
 type CloudConnection struct {
+	PullSecret    string  `yaml:"pullSecret"`
 	SSHPrivateKey string  `yaml:"sshPrivatekey"`
 	SSHPublicKey  string  `yaml:"sshPublickey"`
-	Keys          APIKeys `yaml:"apiKeys,omitempty"`
+	APIKeys       APIKeys `yaml:"apiKeys,omitempty"`
 	// OCPRelease    string  `yaml:"ocpRelease,omitempty"`
 }
 
+// APIKeys - define the cloud connection information
 type APIKeys struct {
 	AWS   AWSAPIKey   `yaml:"aws,omitempty"`
 	GCP   GCPAPIKey   `yaml:"gcp,omitempty"`
 	Azure AzureAPIKey `yaml:"azure,omitempty"`
 }
 
+// AWSAPIKey ...
 type AWSAPIKey struct {
 	AWSAccessKeyID  string `yaml:"awsAccessKeyID"`
 	AWSAccessSecret string `yaml:"awsSecretAccessKeyID"`
-	BaseDnsDomain   string `yaml:"baseDnsDomain"`
+	BaseDNSDomain   string `yaml:"baseDnsDomain"`
 	Region          string `yaml:"region"`
 }
 
+// GCPAPIKey ...
 type GCPAPIKey struct {
 	ProjectID             string `yaml:"gcpProjectID"`
-	ServiceAccountJsonKey string `yaml:"gcpServiceAccountJsonKey"`
-	BaseDnsDomain         string `yaml:"baseDnsDomain"`
+	ServiceAccountJSONKey string `yaml:"gcpServiceAccountJsonKey"`
+	BaseDNSDomain         string `yaml:"baseDnsDomain"`
 	Region                string `yaml:"region"`
 }
 
+// AzureAPIKey ...
 type AzureAPIKey struct {
-	BaseDnsDomain  string `yaml:"baseDnsDomain"`
 	BaseDomainRGN  string `yaml:"azureBaseDomainRGN"`
-	ClientId       string `yaml:"clientId"`
+	BaseDNSDomain  string `yaml:"baseDnsDomain"`
+	SubscriptionID string `yaml:"subscriptionID"`
+	ClientID       string `yaml:"clientID"`
 	ClientSecret   string `yaml:"clientSecret"`
-	TenantId       string `yaml:"tenantId"`
-	SubscriptionId string `yaml:"subscriptionId"`
+	TenantID       string `yaml:"tenantID"`
 	Region         string `yaml:"region"`
 }
 
@@ -133,9 +145,6 @@ func GetOwner() string {
 	//    If a value is not supplied, the default is OS environment variable $USER
 	owner := libgocmd.End2End.Owner
 	if owner == "" {
-		owner = TestOptions.Owner
-	}
-	if owner == "" {
 		owner = os.Getenv("USER")
 	}
 	if owner == "" {
@@ -150,9 +159,7 @@ func GetOwner() string {
 //3. Generate a new one
 func GetUID() (string, error) {
 	uid := libgocmd.End2End.UID
-	if uid == "" {
-		uid = TestOptions.UID
-	}
+
 	if uid == "" {
 		var err error
 		uid, err = randString(4)
@@ -167,11 +174,11 @@ func GetUID() (string, error) {
 func GetRegion(cloud string) (string, error) {
 	switch cloud {
 	case "aws":
-		return TestOptions.Connection.Keys.AWS.Region, nil
+		return TestOptions.CloudConnection.APIKeys.AWS.Region, nil
 	case "azure":
-		return TestOptions.Connection.Keys.Azure.Region, nil
+		return TestOptions.CloudConnection.APIKeys.Azure.Region, nil
 	case "gcp":
-		return TestOptions.Connection.Keys.GCP.Region, nil
+		return TestOptions.CloudConnection.APIKeys.GCP.Region, nil
 	default:
 		return "", fmt.Errorf("Can not find region as the cloud %s is unsuported", cloud)
 
@@ -182,11 +189,11 @@ func GetRegion(cloud string) (string, error) {
 func GetBaseDomain(cloud string) (string, error) {
 	switch cloud {
 	case "aws":
-		return TestOptions.Connection.Keys.AWS.BaseDnsDomain, nil
+		return TestOptions.CloudConnection.APIKeys.AWS.BaseDNSDomain, nil
 	case "azure":
-		return TestOptions.Connection.Keys.Azure.BaseDnsDomain, nil
+		return TestOptions.CloudConnection.APIKeys.Azure.BaseDNSDomain, nil
 	case "gcp":
-		return TestOptions.Connection.Keys.GCP.BaseDnsDomain, nil
+		return TestOptions.CloudConnection.APIKeys.GCP.BaseDNSDomain, nil
 	default:
 		return "", fmt.Errorf("Can not find the baseDomain as the cloud %s is unsupported", cloud)
 

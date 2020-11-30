@@ -1,12 +1,15 @@
 owner: owner
 hub:
-  configDir: "resources/hub"
+  name: hub-cluster
   baseDomain: mybaseDomain
-managedClusters:
-  configDir:  "resources/clusters"
-  owner: my
-  imageSetRefName: my_image_ref
+  kubecontext: kubecontext
+clusters:
+- name: managedcluster
+  baseDomain: mybaseDomain
+  kubecontext: kubecontext
 cloudConnection:
+  pullSecret: |-
+    fakesecret
   sshPublickey: |-
     fake
   sshPrivatekey: |-
@@ -21,10 +24,10 @@ cloudConnection:
       region: my_aws_region
     azure:
       baseDnsDomain: my_azure_baseDnsDomain
-      clientId: my_clientId
+      clientID: my_clientId
       clientSecret: my_clientSecret
-      tenantId: mu_tenantId
-      subscriptionId: my_subscriptionId
+      tenantID: mu_tenantId
+      subscriptionID: my_subscriptionId
       region: my_azure_region
     gcp:
       gcpServiceAccountJsonKey: |-
