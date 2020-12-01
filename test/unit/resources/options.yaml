@@ -7,6 +7,9 @@ clusters:
 - name: managedcluster
   baseDomain: mybaseDomain
   kubecontext: kubecontext
+ocpReleaseVersions:
+  quay.io/openshift-release-dev/ocp-release:4.3.28-x86_64: aws, gcp, azure
+  quay.io/openshift-release-dev/ocp-release:4.5.28-x86_64: aws , gcp
 cloudConnection:
   pullSecret: |-
     fakesecret

@@ -14,14 +14,15 @@ import (
 	"k8s.io/klog"
 )
 
-// TestOptionsT ...
+// TestOptions ...
 // Define options available for Tests to consume
 type TestOptionsT struct {
-	Hub              Cluster         `yaml:"hub,omitempty"`
-	ManagedClusters  []Cluster       `yaml:"clusters,omitempty"`
-	ImageRegistry    ImageRegistry   `yaml:"imageRegistry,omitempty"`
-	IdentityProvider string          `yaml:"identityProvider,omitempty"`
-	CloudConnection  CloudConnection `yaml:"cloudConnection,omitempty"`
+	Hub               Cluster         `yaml:"hub,omitempty"`
+	ManagedClusters   []Cluster       `yaml:"clusters,omitempty"`
+	ImageRegistry     ImageRegistry   `yaml:"imageRegistry,omitempty"`
+	OCPReleaseVersion string          `yaml:"ocpReleaseVersion,omitempty"`
+	IdentityProvider  string          `yaml:"identityProvider,omitempty"`
+	CloudConnection   CloudConnection `yaml:"cloudConnection,omitempty"`
 }
 
 // Cluster ...
