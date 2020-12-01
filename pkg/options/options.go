@@ -17,31 +17,25 @@ import (
 // TestOptionsT ...
 // Define options available for Tests to consume
 type TestOptionsT struct {
-	Hub              Hub             `yaml:"hub,omitempty"`
-	Clusters         []Clusters      `yaml:"clusters,omitempty"`
+	Hub              Cluster         `yaml:"hub,omitempty"`
+	ManagedClusters  []Cluster       `yaml:"clusters,omitempty"`
 	ImageRegistry    ImageRegistry   `yaml:"imageRegistry,omitempty"`
 	IdentityProvider string          `yaml:"identityProvider,omitempty"`
 	CloudConnection  CloudConnection `yaml:"cloudConnection,omitempty"`
 }
 
-// Hub ...
+// Cluster ...
 // Define the shape of clusters that may be added under management
-type Hub struct {
-	Name       string `yaml:"name,omitempty"`
-	BaseDomain string `yaml:"baseDomain"`
-	User       string `yaml:"user,omitempty"`
-	Password   string `yaml:"password,omitempty"`
-	//The hub kubeconfig path
-	KubeContext string `yaml:"kubecontext,omitempty"`
-}
-
-// Clusters ...
-// Define the shape of clusters that may be added under management
-type Clusters struct {
+type Cluster struct {
 	Name        string          `yaml:"name,omitempty"`
+	Namespace   string          `yaml:"namespace,omitempty"`
 	Tags        map[string]bool `yaml:"tags,omitempty"`
 	BaseDomain  string          `yaml:"baseDomain"`
+	User        string          `yaml:"user,omitempty"`
+	Password    string          `yaml:"password,omitempty"`
 	KubeContext string          `yaml:"kubecontext,omitempty"`
+	MasterURL   string          `yaml:"masterURL,omitempty"`
+	KubeConfig  string          `yaml:"kubeconfig,omitempty"`
 }
 
 // ImageRegistry - define the image repo information
