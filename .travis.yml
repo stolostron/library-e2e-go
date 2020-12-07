@@ -8,12 +8,6 @@ branches:
     - master
     - /^release-[0-9]+\..*$/
 
-addons:
-  sonarcloud:
-    organization: "open-cluster-management"
-    token:
-      secure: "4roJaQcO3bP62AWio+dcsNXfIiJhLUtbrCCwQ0mv+LPtDY0SaEX2AXWpwbkZWBU2zG9rjpoVC6ERiIuQImjtBBuzrHWOxnfKbceUE8eHoFZUq2tAnrE+RIyNwLp5al5u2rkO89Rd0DyxEInggk1m2gF4YAW1KO1WH/x8TlWJz9Nqgr2Y+FrxlMgvsDShZ54vFrUGCNR/n7yAk4zXRTnUs2aGrSaGE04BwY9bkbKSSdYuetnpBC8JQjMGadOYzdNXShAcYiarzGtxQBFf9FmJmj+DVisE4qfbqdmHJAeREoul/Z52qYaHJQa6BFxbgnu228NbIgkhJAqV5PHzuXJNZs/e5RdTbQlIptsNg5s0JLOV4R+JPw7pQGrkDMaYjcPchHeh6xBsAMD7S7BJr6MLageH9Fh7ryIkrQQSvw/bhrJlNX1GUfTCGGK8bYQuyJycU6VZJyKFd+jCs38SctKLT+6eLDiZDWxKRiJkYYJzn0Je0VbWWn3JsneR+7HSL9xftaO+xIriNbeGIMAG3wF0z3aSplKdR3GXZXKtpGiV9sJ1UF4B9RlEiXEDrLOEnr6tW/VZQ9Ly5qurbaucfowFhuqzSkJ+OeAW/7huVUszKdICuWoHp6ZB+W8NR+R99qP+N7JCvC2KaTG3ux9scGUImnz+QsCXi2xposZFJVmEp0k="
-
 stages:
   - unit-test
 
@@ -26,4 +20,3 @@ jobs:
       name: "Run unit tests"
       script:
         - make test
-        - make sonar/go
