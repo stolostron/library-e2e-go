@@ -14,6 +14,10 @@ import (
 	"k8s.io/klog"
 )
 
+type TestOptionsContainer struct {
+	Options TestOptionsT `yaml:"options"`
+}
+
 // TestOptions ...
 // Define options available for Tests to consume
 type TestOptionsT struct {
@@ -92,7 +96,7 @@ type AzureAPIKey struct {
 const charset = "abcdefghijklmnopqrstuvwxyz" +
 	"0123456789"
 
-var TestOptions TestOptionsT
+var TestOptions TestOptionsContainer
 
 //LoadOptions load the options in the following priority:
 //1. The provided file path
@@ -169,11 +173,11 @@ func GetUID() (string, error) {
 func GetRegion(cloud string) (string, error) {
 	switch cloud {
 	case "aws":
-		return TestOptions.CloudConnection.APIKeys.AWS.Region, nil
+		return TestOptions.Options.CloudConnection.APIKeys.AWS.Region, nil
 	case "azure":
-		return TestOptions.CloudConnection.APIKeys.Azure.Region, nil
+		return TestOptions.Options.CloudConnection.APIKeys.Azure.Region, nil
 	case "gcp":
-		return TestOptions.CloudConnection.APIKeys.GCP.Region, nil
+		return TestOptions.Options.CloudConnection.APIKeys.GCP.Region, nil
 	default:
 		return "", fmt.Errorf("Can not find region as the cloud %s is unsuported", cloud)
 
@@ -184,11 +188,11 @@ func GetRegion(cloud string) (string, error) {
 func GetBaseDomain(cloud string) (string, error) {
 	switch cloud {
 	case "aws":
-		return TestOptions.CloudConnection.APIKeys.AWS.BaseDNSDomain, nil
+		return TestOptions.Options.CloudConnection.APIKeys.AWS.BaseDNSDomain, nil
 	case "azure":
-		return TestOptions.CloudConnection.APIKeys.Azure.BaseDNSDomain, nil
+		return TestOptions.Options.CloudConnection.APIKeys.Azure.BaseDNSDomain, nil
 	case "gcp":
-		return TestOptions.CloudConnection.APIKeys.GCP.BaseDNSDomain, nil
+		return TestOptions.Options.CloudConnection.APIKeys.GCP.BaseDNSDomain, nil
 	default:
 		return "", fmt.Errorf("Can not find the baseDomain as the cloud %s is unsupported", cloud)
 
