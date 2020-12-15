@@ -1,36 +1,41 @@
-owner: owner
-hub:
-  configDir: "resources/hub"
-  baseDomain: mybaseDomain
-managedClusters:
-  configDir:  "resources/clusters"
-  owner: my
-  imageSetRefName: my_image_ref
-cloudConnection:
-  sshPublickey: |-
-    fake
-  sshPrivatekey: |-
-    -----BEGIN OPENSSH PRIVATE KEY-----
-    fake
-    -----END OPENSSH PRIVATE KEY-----        
-  apiKeys:
-    aws:
-      awsAccessKeyID: awsAccessKeyID
-      awsSecretAccessKeyID: awsSecretAccessKeyID
-      baseDnsDomain: my_aws_baseDnsDomain
-      region: my_aws_region
-    azure:
-      baseDnsDomain: my_azure_baseDnsDomain
-      clientId: my_clientId
-      clientSecret: my_clientSecret
-      tenantId: mu_tenantId
-      subscriptionId: my_subscriptionId
-      region: my_azure_region
-    gcp:
-      gcpServiceAccountJsonKey: |-
-        {
-          "gcpServiceAccountJsonKey": "my_gcpServiceAccountJsonKey",
-        }    
-      gcpProjectID: my_gcpProjectID
-      baseDnsDomain: my_gcp_baseDnsDomain
-      region: my_gcp_region
+options:
+  owner: owner
+  hub:
+    name: hub-cluster
+    baseDomain: mybaseDomain
+    kubecontext: kubecontext
+  clusters:
+  - name: managedcluster
+    baseDomain: mybaseDomain
+    kubecontext: kubecontext
+  ocpReleaseVersion: quay.io/openshift-release-dev/ocp-release:4.3.28-x86_64
+  cloudConnection:
+    pullSecret: |-
+      fakesecret
+    sshPublickey: |-
+      fake
+    sshPrivatekey: |-
+      -----BEGIN OPENSSH PRIVATE KEY-----
+      fake
+      -----END OPENSSH PRIVATE KEY-----        
+    apiKeys:
+      aws:
+        awsAccessKeyID: awsAccessKeyID
+        awsSecretAccessKeyID: awsSecretAccessKeyID
+        baseDnsDomain: my_aws_baseDnsDomain
+        region: my_aws_region
+      azure:
+        baseDnsDomain: my_azure_baseDnsDomain
+        clientID: my_clientId
+        clientSecret: my_clientSecret
+        tenantID: mu_tenantId
+        subscriptionID: my_subscriptionId
+        region: my_azure_region
+      gcp:
+        gcpServiceAccountJsonKey: |-
+          {
+            "gcpServiceAccountJsonKey": "my_gcpServiceAccountJsonKey",
+          }    
+        gcpProjectID: my_gcpProjectID
+        baseDnsDomain: my_gcp_baseDnsDomain
+        region: my_gcp_region
