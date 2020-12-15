@@ -1,5 +1,6 @@
-# hub:
-  configDir: "resources/hub"
+options:
+hub:
+  configDir\ "resources/hub"
   baseDomain: mybaseDomain
 managedClusters:
   configDir:  "resources/clusters"
