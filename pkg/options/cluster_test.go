@@ -26,6 +26,7 @@ func TestNewClusterName(t *testing.T) {
 			},
 			want: &ClusterName{
 				Cloud: "azure",
+				Owner: "ginkgo",
 			},
 			wantErr: false,
 		},

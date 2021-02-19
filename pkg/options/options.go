@@ -8,89 +8,127 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/ghodss/yaml"
 	libgocmd "github.com/open-cluster-management/library-e2e-go/pkg/cmd"
 
-	"gopkg.in/yaml.v1"
 	"k8s.io/klog"
 )
 
 type TestOptionsContainer struct {
-	Options TestOptionsT `yaml:"options"`
+	Options TestOptionsT `json:"options"`
 }
 
 // TestOptions ...
 // Define options available for Tests to consume
 type TestOptionsT struct {
-	Hub               Cluster         `yaml:"hub,omitempty"`
-	ManagedClusters   []Cluster       `yaml:"clusters,omitempty"`
-	ImageRegistry     ImageRegistry   `yaml:"imageRegistry,omitempty"`
-	OCPReleaseVersion string          `yaml:"ocpReleaseVersion,omitempty"`
-	IdentityProvider  string          `yaml:"identityProvider,omitempty"`
-	CloudConnection   CloudConnection `yaml:"cloudConnection,omitempty"`
+	Hub               Cluster         `json:"hub"`
+	ManagedClusters   []Cluster       `json:"clusters"`
+	ImageRegistry     ImageRegistry   `json:"imageRegistry,omitempty"`
+	OCPReleaseVersion string          `json:"ocpReleaseVersion,omitempty"`
+	IdentityProvider  string          `json:"identityProvider,omitempty"`
+	CloudConnection   CloudConnection `json:"cloudConnection,omitempty"`
 }
 
 // Cluster ...
 // Define the shape of clusters that may be added under management
 type Cluster struct {
-	Name        string          `yaml:"name,omitempty"`
-	Namespace   string          `yaml:"namespace,omitempty"`
-	Tags        map[string]bool `yaml:"tags,omitempty"`
-	BaseDomain  string          `yaml:"baseDomain"`
-	User        string          `yaml:"user,omitempty"`
-	Password    string          `yaml:"password,omitempty"`
-	KubeContext string          `yaml:"kubecontext,omitempty"`
-	MasterURL   string          `yaml:"masterURL,omitempty"`
-	KubeConfig  string          `yaml:"kubeconfig,omitempty"`
+	Name        string          `json:"name,omitempty"`
+	Namespace   string          `json:"namespace,omitempty"`
+	Tags        map[string]bool `json:"tags,omitempty"`
+	BaseDomain  string          `json:"baseDomain"`
+	User        string          `json:"user,omitempty"`
+	Password    string          `json:"password,omitempty"`
+	KubeContext string          `json:"kubecontext,omitempty"`
+	MasterURL   string          `json:"masterURL,omitempty"`
+	KubeConfig  string          `json:"kubeconfig,omitempty"`
 }
 
 // ImageRegistry - define the image repo information
 type ImageRegistry struct {
-	Server   string `yaml:"server,omitemty"`
-	User     string `yaml:"user,omitempty"`
-	Password string `yaml:"password,omitemty"`
+	Server   string `json:"server"`
+	User     string `json:"user"`
+	Password string `json:"password"`
 }
 
 // CloudConnection struct for bits having to do with Connections
 type CloudConnection struct {
-	PullSecret    string  `yaml:"pullSecret"`
-	SSHPrivateKey string  `yaml:"sshPrivatekey"`
-	SSHPublicKey  string  `yaml:"sshPublickey"`
-	APIKeys       APIKeys `yaml:"apiKeys,omitempty"`
+	PullSecret    string  `json:"pullSecret"`
+	SSHPrivateKey string  `json:"sshPrivatekey"`
+	SSHPublicKey  string  `json:"sshPublickey"`
+	APIKeys       APIKeys `json:"apiKeys,omitempty"`
 	// OCPRelease    string  `yaml:"ocpRelease,omitempty"`
 }
 
 // APIKeys - define the cloud connection information
 type APIKeys struct {
-	AWS   AWSAPIKey   `yaml:"aws,omitempty"`
-	GCP   GCPAPIKey   `yaml:"gcp,omitempty"`
-	Azure AzureAPIKey `yaml:"azure,omitempty"`
+	AWS       AWSAPIKey       `json:"aws,omitempty"`
+	GCP       GCPAPIKey       `json:"gcp,omitempty"`
+	Azure     AzureAPIKey     `json:"azure,omitempty"`
+	BareMetal BareMetalAPIKey `json:"baremetal,omitempty"`
 }
 
 // AWSAPIKey ...
 type AWSAPIKey struct {
-	AWSAccessKeyID  string `yaml:"awsAccessKeyID"`
-	AWSAccessSecret string `yaml:"awsSecretAccessKeyID"`
-	BaseDNSDomain   string `yaml:"baseDnsDomain"`
-	Region          string `yaml:"region"`
+	AWSAccessKeyID  string `json:"awsAccessKeyID"`
+	AWSAccessSecret string `json:"awsSecretAccessKeyID"`
+	BaseDNSDomain   string `json:"baseDnsDomain"`
+	Region          string `json:"region"`
 }
 
 // GCPAPIKey ...
 type GCPAPIKey struct {
-	ProjectID             string `yaml:"gcpProjectID"`
-	ServiceAccountJSONKey string `yaml:"gcpServiceAccountJsonKey"`
-	BaseDNSDomain         string `yaml:"baseDnsDomain"`
-	Region                string `yaml:"region"`
+	ProjectID             string `json:"gcpProjectID"`
+	ServiceAccountJSONKey string `json:"gcpServiceAccountJsonKey"`
+	BaseDNSDomain         string `json:"baseDnsDomain"`
+	Region                string `json:"region"`
 }
 
 // AzureAPIKey ...
 type AzureAPIKey struct {
-	BaseDomainRGN  string `yaml:"azureBaseDomainRGN"`
-	BaseDNSDomain  string `yaml:"baseDnsDomain"`
-	SubscriptionID string `yaml:"subscriptionID"`
-	ClientID       string `yaml:"clientID"`
-	ClientSecret   string `yaml:"clientSecret"`
-	TenantID       string `yaml:"tenantID"`
-	Region         string `yaml:"region"`
+	BaseDomainRGN  string `json:"azureBaseDomainRGN"`
+	BaseDNSDomain  string `json:"baseDnsDomain"`
+	SubscriptionID string `json:"subscriptionID"`
+	ClientID       string `json:"clientID"`
+	ClientSecret   string `json:"clientSecret"`
+	TenantID       string `json:"tenantID"`
+	Region         string `json:"region"`
+}
+
+// BareMetalAPIKey ...
+type BareMetalAPIKey struct {
+	ClusterName                  string   `json:"clusterName"`
+	BaseDNSDomain                string   `json:"baseDnsDomain"`
+	LibvirtURI                   string   `json:"libvirtURI"`
+	ProvisioningNetworkCIDR      string   `json:"provisioningNetworkCIDR"`
+	ProvisioningNetworkInterface string   `json:"provisioningNetworkInterface"`
+	ProvisioningBridge           string   `json:"provisioningBridge"`
+	ExternalBridge               string   `json:"externalBridge"`
+	APIVIP                       string   `json:"apiVIP"`
+	IngressVIP                   string   `json:"ingressVIP"`
+	SSHKnownHostsList            []string `json:"sshKnownHostsList"`
+	ImageRegistryMirror          string   `json:"imageRegistryMirror"`
+	BootstrapOSImage             string   `json:"bootstrapOSImage"`
+	ClusterOSImage               string   `json:"clusterOSImage"`
+	TrustBundle                  string   `json:"trustBundle"`
+	Hosts                        []Hosts  `json:"hosts"`
+}
+
+// Hosts ...
+type Hosts struct {
+	Name            string `json:"name"`
+	Namespace       string `json:"namespace"`
+	Role            string `json:"role"`
+	Bmc             BMC    `json:"bmc"`
+	BootMACAddress  string `json:"bootMACAddress"`
+	HardwareProfile string `json:"hardwareProfile"`
+}
+
+// BMC ...
+type BMC struct {
+	Address                        string `json:"address"`
+	DisableCertificateVerification bool   `json:"disableCertificateVerification"`
+	Username                       string `json:"username"`
+	Password                       string `json:"password"`
 }
 
 const charset = "abcdefghijklmnopqrstuvwxyz" +
@@ -143,9 +181,10 @@ func GetOwner() string {
 	// owner is used to help identify who owns deployed resources
 	//    If a value is not supplied, the default is OS environment variable $USER
 	owner := libgocmd.End2End.Owner
-	if owner == "" {
-		owner = os.Getenv("USER")
-	}
+
+	// if owner == "" {
+	// 	owner = os.Getenv("USER")
+	// }
 	if owner == "" {
 		owner = "ginkgo"
 	}
@@ -193,6 +232,8 @@ func GetBaseDomain(cloud string) (string, error) {
 		return TestOptions.Options.CloudConnection.APIKeys.Azure.BaseDNSDomain, nil
 	case "gcp":
 		return TestOptions.Options.CloudConnection.APIKeys.GCP.BaseDNSDomain, nil
+	case "baremetal":
+		return TestOptions.Options.CloudConnection.APIKeys.BareMetal.BaseDNSDomain, nil
 	default:
 		return "", fmt.Errorf("Can not find the baseDomain as the cloud %s is unsupported", cloud)
 
