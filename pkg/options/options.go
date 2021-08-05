@@ -32,15 +32,15 @@ type TestOptionsT struct {
 // Cluster ...
 // Define the shape of clusters that may be added under management
 type Cluster struct {
-	Name        string          `json:"name,omitempty"`
-	Namespace   string          `json:"namespace,omitempty"`
-	Tags        map[string]bool `json:"tags,omitempty"`
-	BaseDomain  string          `json:"baseDomain"`
-	User        string          `json:"user,omitempty"`
-	Password    string          `json:"password,omitempty"`
-	KubeContext string          `json:"kubecontext,omitempty"`
-	MasterURL   string          `json:"masterURL,omitempty"`
-	KubeConfig  string          `json:"kubeconfig,omitempty"`
+	Name         string          `json:"name,omitempty"`
+	Namespace    string          `json:"namespace,omitempty"`
+	Tags         map[string]bool `json:"tags,omitempty"`
+	BaseDomain   string          `json:"baseDomain"`
+	User         string          `json:"user,omitempty"`
+	Password     string          `json:"password,omitempty"`
+	KubeContext  string          `json:"kubecontext,omitempty"`
+	ApiServerURL string          `json:"apiServerURL,omitempty"`
+	KubeConfig   string          `json:"kubeconfig,omitempty"`
 }
 
 // ImageRegistry - define the image repo information
