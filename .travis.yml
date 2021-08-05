@@ -5,7 +5,7 @@ go:
 
 branches:
   only:
-    - master
+    - main
     - /^release-[0-9]+\..*$/
 
 stages:
