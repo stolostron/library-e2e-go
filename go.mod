@@ -1,4 +1,4 @@
-module github.com/open-cluster-management/library-e2e-go
+module github.com/stolostron/library-e2e-go
 
 go 1.13
 

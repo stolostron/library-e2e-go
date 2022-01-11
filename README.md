@@ -1,5 +1,5 @@
 # library-e2e-go
-This project contains a number of Go utilities for open-cluster-management end to end test
+This project contains a number of Go utilities for stolostron end to end test
 
 ## Package options
 
