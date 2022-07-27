@@ -1,8 +1,6 @@
 module github.com/stolostron/library-e2e-go
 
-go 1.17
-
-replace k8s.io/client-go => k8s.io/client-go v0.23.5
+go 1.18
 
 require (
 	github.com/ghodss/yaml v1.0.0
